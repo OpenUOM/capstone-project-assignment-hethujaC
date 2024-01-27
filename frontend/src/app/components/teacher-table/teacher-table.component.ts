@@ -61,31 +61,14 @@ export class TeacherTableComponent implements OnInit {
   }
 
   search(value: string) {
-    // Convert the search value to lowercase for case-insensitive search
-    const searchValue = value.toLowerCase();
-  
-    // Check if the search value is empty
-    if (searchValue.trim() === '') {
-      // If the search value is empty, reset the teacher data to the original data
+    if (value.length <= 0) {
       this.getTeacherData();
     } else {
-      // If the search value is not empty, filter the teacher data based on the search value
-      this.service.getTeacherData().subscribe(
-        (response) => {
-          // Filter the teacher data based on the search value
-          this.teacherData = Object.keys(response)
-            .map((key) => response[key])
-            .filter((teacher) =>
-              teacher.name.toLowerCase().includes(searchValue)
-            );
-        },
-        (error) => {
-          console.log('ERROR - ', error);
-        }
-      );
+      this.teacherData = this.teacherData.filter((teacher) => {
+        return teacher[0].name.toLowerCase().indexOf(value.toLowerCase()) > -1;
+      });
     }
   }
-  
 
   deleteTeacher(itemid) {
     const test = {
