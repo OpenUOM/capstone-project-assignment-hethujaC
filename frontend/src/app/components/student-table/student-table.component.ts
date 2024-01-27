@@ -52,29 +52,12 @@ export class StudentTableComponent implements OnInit {
   }
 
   search(value: string) {
-    // Convert the search value to lowercase for case-insensitive search
-    const searchValue = value.toLowerCase();
-  
-    // Check if the search value is empty
-    if (searchValue.trim() === '') {
-      // If the search value is empty, reset the student data to the original data
+    if (value.length <= 0) {
       this.getStudentData();
     } else {
-      // If the search value is not empty, filter the student data based on the search value
-      this.service.getStudentData().subscribe(
-        (response) => {
-          // Filter the student data based on the search value
-          this.studentData = Object.keys(response)
-            .map((key) => response[key])
-            .filter((student) =>
-              student.name.toLowerCase().includes(searchValue)
-            );
-        },
-        (error) => {
-          console.log('ERROR - ', error);
-        }
-      );
+      this.studentData = this.studentData.filter((student) => {
+        return student[0].name.toLowerCase().indexOf(value.toLowerCase()) > -1;
+      });
     }
   }
-  
 }
